@@ -12,9 +12,6 @@ AuthRouter.get("/login", passport.authenticate("google" , {
     successRedirect: process.env.FRONTEND_URL
 }));
 
-AuthRouter.get('/login' , (req , res , next) => {
-    res.send("Working")
-})
 
 
 // For Logout ---------------------------------------------------------------
