@@ -3,7 +3,7 @@ import { connectToDB } from "./db.js";
 import Razorpay from "razorpay";
 
 app.get("/", (req, res, next) => {
-    res.send("<h1>Logged In</h1>");
+    res.send("<h1>Working</h1>");
 })
 
 await connectToDB();
