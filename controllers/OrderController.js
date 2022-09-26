@@ -123,7 +123,7 @@ export const paymentVerification = asyncError(async (req, res, next) => {
 // Get all orders of logged in user ---------------
 export const getAllOrder = asyncError(async (req, res, next) => {
     const allOrders = await OrderModel.find({
-        userId: req.user._id
+        user: req.user._id
     });
 
     return res.status(200).json({
@@ -138,37 +138,9 @@ export const orderDetails = asyncError(async (req, res, next) => {
     if (!order) return next(new ErrorHandler("Not Found", 404));
 
     return res.status(200).json({
-        msg: "Order fetched succesully",
+        msg: "Order fetched succesfully",
         order
     })
 });
 
-// -------------- Needs Admin Authorization -----------------
-// Get all user orders 
-export const allOrder = asyncError(async (req, res, next) => {
-    const allOrders = await OrderModel.find();
-
-    return res.status(200).json({
-        success: true,
-        allOrders
-    })
-});
-export const changeOrderStatus = asyncError(async (req, res, next) => {
-    const order = await OrderModel.findById(req.params.id);
-    if (!order) return next(new ErrorHandler("Not Found", 404));
-
-    if (order.orderStatus === "Delivered") return next(new ErrorHandler("Item already delivered", 400));
-    else if (order.orderStatus == "Preparing") order.orderStatus = "Shipped";
-    else if (order.orderStatus == "Shipped") {
-        order.orderStatus = "Delivered";
-        order.deliveredAt = new Date(Date.now());
-    };
-
-    await order.save();
-
-    return res.status(200).json({
-        success: true,
-        msg: "Status updted succesfully"
-    })
-});
 

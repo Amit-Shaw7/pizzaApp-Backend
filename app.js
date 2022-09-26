@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import { createError } from './middlewares/error.js';
 import OrderRouter from './routes/OrderRouter.js';
 import cors from 'cors';
+import AdminRouter from './routes/AdminRouter.js';
 
 const app = express();
 
@@ -25,9 +26,9 @@ app.use(session({
     saveUninitialized: false,
 
     cookie: {
-        secure: process.env.NODE_ENV === "development" ? false : true,
-        httpOnly: process.env.NODE_ENV === "development" ? false : true,
-        sameSite: process.env.NODE_ENV === "development" ? false : "none"
+        secure: process.env.NODE_ENV === "production" && true,
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === "production" && "none"
     }
 }));
 
@@ -36,13 +37,13 @@ app.use(urlencoded({
     extended: true
 }));
 
+app.use(cookieParser());
 app.use(cors({
     credentials: true,
     origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST", "PUT", "DELETE"]
 }))
 
-app.use(cookieParser());
 
 app.use(passport.authenticate("session"));
 app.use(passport.initialize());
@@ -52,6 +53,7 @@ connectPasspport();
 app.use("/api/users", UserRouter);
 app.use("/api/auths", AuthRouter);
 app.use("/api/orders", OrderRouter);
+app.use("/api/admin", AdminRouter);
 
 
 // Error Middleware
