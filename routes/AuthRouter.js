@@ -9,7 +9,8 @@ AuthRouter.get("/googlelogin", passport.authenticate("google", {
 }));
 
 AuthRouter.get("/login", passport.authenticate("google" , {
-    successRedirect: process.env.FRONTEND_URL
+    successRedirect: process.env.FRONTEND_URL,
+    failureRedirect: process.env.FRONTEND_URL
 }));
 
 
