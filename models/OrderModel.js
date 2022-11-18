@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema({
     shippingInfo: {
-        hNo: {
+        address: {
             type: String,
             required: true,
         },
@@ -16,7 +16,7 @@ const OrderSchema = new mongoose.Schema({
         },
         country: {
             type: String,
-            required: true,
+            default: "INDIA",
         },
         pincode: {
             type: Number,

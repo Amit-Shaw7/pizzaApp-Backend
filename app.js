@@ -2,14 +2,14 @@ import express, { urlencoded } from 'express';
 import dotenv from "dotenv";
 import UserRouter from './routes/UserRouter.js';
 import AuthRouter from './routes/AuthRouter.js';
-import { connectPasspport } from './utils/Provider.js';
-import session from 'express-session';
-import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import { createError } from './middlewares/error.js';
 import OrderRouter from './routes/OrderRouter.js';
 import cors from 'cors';
 import AdminRouter from './routes/AdminRouter.js';
+import ProductRouter from './routes/ProductRouter.js';
+import CartRouter from './routes/CartRouter.js';
+import ContactRouter from './routes/ContactRouter.js';
 
 const app = express();
 
@@ -20,18 +20,6 @@ dotenv.config({
 });
 
 // Using Middlewares ------------------------------------
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-
-    cookie: {
-        secure: process.env.NODE_ENV === "production" && true,
-        httpOnly: true,
-        sameSite: process.env.NODE_ENV === "production" && "none"
-    }
-}));
-
 app.use(express.json());
 app.use(urlencoded({
     extended: true
@@ -41,19 +29,16 @@ app.use(cookieParser());
 app.use(cors({
     credentials: true,
     origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST", "PUT", "DELETE"]
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"]
 }))
 
-
-app.use(passport.authenticate("session"));
-app.use(passport.initialize());
-
-
-connectPasspport();
 app.use("/api/users", UserRouter);
 app.use("/api/auths", AuthRouter);
 app.use("/api/orders", OrderRouter);
 app.use("/api/admin", AdminRouter);
+app.use("/api/products", ProductRouter);
+app.use("/api/carts", CartRouter);
+app.use("/api/contacts", ContactRouter);
 
 
 // Error Middleware

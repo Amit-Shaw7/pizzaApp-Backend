@@ -1,22 +1,29 @@
 import express, { Router } from 'express';
-import passport from 'passport';
-import { logout } from '../controllers/AuthController.js';
+import { forgetPassword, isAuthenticated, login, logout, resetpassword, signup, verifyToken } from '../controllers/AuthController.js';
+import { myProfile } from '../controllers/UserController.js';
 const AuthRouter = express.Router();
 
-// For Googlle Authentication -----------------------------------------------
-AuthRouter.get("/googlelogin", passport.authenticate("google", {
-    scope: ["profile"],
-}));
+// Signup
+AuthRouter.post("/signup", signup)
 
-AuthRouter.get("/login", passport.authenticate("google" , {
-    successRedirect: process.env.FRONTEND_URL,
-    failureRedirect: process.env.FRONTEND_URL
-}));
-
-
+// Login
+AuthRouter.post("/login", login)
 
 // For Logout ---------------------------------------------------------------
-AuthRouter.get("/logout" , logout)
+AuthRouter.get("/logout", logout)
+
+// Check login or not
+AuthRouter.get("/isloggedin", verifyToken, myProfile)
+
+AuthRouter.post("/forgetpassword", forgetPassword);
+AuthRouter.post("/resetpassword/:token", resetpassword);
+
+
 export default AuthRouter;
+
+
+
+
+
 
 
