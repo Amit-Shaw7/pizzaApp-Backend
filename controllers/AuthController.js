@@ -21,16 +21,11 @@ export const verifyToken = asyncError(async (req, res, next) => {
         if (err) return next(new ErrorHandler("You are not authorized", 401));
 
         req.user = id;
+        next();
     });
-    next();
 });
 
 // IsAuthenticated -  checks whether user is logged in or not
-export const isAuthenticated = (req, res, next) => {
-    const token = req.cookies["pijjAccessToken"];
-    if (!token) return next(new ErrorHandler("Please Login", 401));
-    return res.status(200).json({ msg: "LOgged In" });
-}
 
 // IsAdmin - checks whether the user is admin or not
 export const isAdmin = async (req, res, next) => {
