@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAdmin, isAuthenticated, verifyToken } from '../controllers/AuthController.js';
+import { isAdmin, verifyToken } from '../controllers/AuthController.js';
 import { createCODorder, createonlineorder, getAllOrder, getmyOrders, orderDetails, paymentVerification } from '../controllers/OrderController.js';
 const OrderRouter = express.Router();
 
@@ -12,7 +12,7 @@ OrderRouter.post("/paymentverification", verifyToken, paymentVerification);
 
 OrderRouter.get("/myorders", verifyToken, getmyOrders);
 
-OrderRouter.get("/allorders", verifyToken, getAllOrder);
+OrderRouter.get("/allorders", verifyToken, isAdmin , getAllOrder);
 
 OrderRouter.get("/:id", verifyToken, orderDetails);
 
