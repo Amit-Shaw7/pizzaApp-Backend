@@ -25,9 +25,7 @@ app.use(urlencoded({
     extended: true
 }));
 
-app.use(cookieParser({
-    origin : process.env.FRONTEND_URL
-}));
+app.use(cookieParser());
 app.use(cors({
     credentials: true,
     origin: process.env.FRONTEND_URL,

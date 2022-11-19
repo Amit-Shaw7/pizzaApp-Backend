@@ -60,6 +60,8 @@ export const login = asyncError(async (req, res, next) => {
         secure: process.env.NODE_ENV !== "development",
         httpOnly: true,
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        path : "/",
+        domain : process.env.FRONTEND_URL,  
     });
 
     return res.status(200).json({ msg: "User Logged In Succesfully", user: others });
