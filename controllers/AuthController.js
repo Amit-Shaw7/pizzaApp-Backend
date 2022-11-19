@@ -57,11 +57,10 @@ export const login = asyncError(async (req, res, next) => {
     });
 
     res.cookie(String("pijjAccessToken"), token, {
-        secure: process.env.NODE_ENV !== "development",
-        httpOnly: true,
+        secure: process.env.NODE_ENV === "development" ? false : true,
+        httpOnly: process.env.NODE_ENV === "development" ? false : true,
+        sameSite: process.env.NODE_ENV === "development" ? false : "none",
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-        path : "/",
-        domain : process.env.FRONTEND_URL,  
     });
 
     return res.status(200).json({ msg: "User Logged In Succesfully", user: others });
