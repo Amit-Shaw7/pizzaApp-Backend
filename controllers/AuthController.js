@@ -8,8 +8,9 @@ import { sendMailToUser } from "../utils/Mail.js";
 
 export const logout = (req, res, next) => {
     res.clearCookie(String("pijjAccessToken"), {
-        secure: process.env.NODE_ENV !== "development",
-        httpOnly: true,
+        secure: process.env.NODE_ENV === "development" ? false : true,
+        httpOnly: process.env.NODE_ENV === "development" ? false : true,
+        sameSite: process.env.NODE_ENV === "development" ? false : "none",
     });
     return res.status(200).json({ msg: "Logged Out", success: true })
 }
